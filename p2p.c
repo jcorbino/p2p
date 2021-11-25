@@ -87,7 +87,7 @@ void client_func(const char* ip_str) {
 
     printf("Connecting to server...\n");
     if (connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
-        printf("\033[1;31mCouldn't connect!\033[0m");
+        printf("\033[1;31mCouldn't connect!\033[0m\n");
         pthread_cancel(server);
         pthread_join(server, NULL);
         exit(EXIT_FAILURE);
