@@ -15,7 +15,7 @@ bool server_not_ready = true;
 pthread_t server;
 
 void* server_func(void* arg) {
-    int sockfd;
+    int sockfd, client;
     struct sockaddr_in address;
     int opt = 1;
 
@@ -46,7 +46,6 @@ void* server_func(void* arg) {
     socklen_t addrlen = (socklen_t)sizeof(address);
     server_not_ready = false;
 
-    int client;
     if ((client = accept(sockfd, (struct sockaddr *)&address, &addrlen)) < 0) {
         perror("\033[1;31maccept(...) failed\033[0m");
         exit(EXIT_FAILURE);
