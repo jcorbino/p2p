@@ -97,6 +97,7 @@ void client_func(const char* ip_str) {
 
     char buffer[MSG_LENGTH];
     do {
+		memset(buffer, 0, MSG_LENGTH);
         fgets(buffer, MSG_LENGTH, stdin);
         write(sockfd, buffer, MSG_LENGTH);
     } while(strcmp(buffer, "exit\n") != 0);
