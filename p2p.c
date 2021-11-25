@@ -9,7 +9,7 @@
 #include <unistd.h>
 
 #define PORT 2000
-#define MSG_LENGTH 280
+#define MSG_LENGTH 300
 
 bool server_not_ready = true;
 pthread_t server;
@@ -20,12 +20,12 @@ void* server_func(void* arg) {
     int opt = 1;
 
     if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
-        perror("socket(...) failed");
+        perror("\033[1;31msocket(...) failed\033[0m");
         exit(EXIT_FAILURE);
     }
 
     if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt))) {
-        perror("setsockopt(...) failed");
+        perror("\033[1;31msetsockopt(...) failed\033[0m");
         exit(EXIT_FAILURE);
     }
 
@@ -34,12 +34,12 @@ void* server_func(void* arg) {
     address.sin_port = htons(PORT);
 
     if (bind(sockfd, (struct sockaddr *)&address, sizeof(address)) < 0) {
-        perror("bind(...) failed");
+        perror("\033[1;31mbind(...) failed\033[0m");
         exit(EXIT_FAILURE);
     }
 
     if (listen(sockfd, 10) < 0) {
-        perror("listen(...) failed");
+        perror("\033[1;31mlisten(...) failed\033[0m");
         exit(EXIT_FAILURE);
     }
 
@@ -48,7 +48,7 @@ void* server_func(void* arg) {
 
     int client;
     if ((client = accept(sockfd, (struct sockaddr *)&address, &addrlen)) < 0) {
-        perror("accept(...) failed");
+        perror("\033[1;31maccept(...) failed\033[0m");
         exit(EXIT_FAILURE);
     }
 
@@ -68,7 +68,7 @@ void client_func(const char* ip_str) {
     struct sockaddr_in serv_addr;
 
     if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
-        perror("socket(...) failed");
+        perror("\033[1;31msocket(...) failed\033[0m");
         exit(EXIT_FAILURE);
     }
 
@@ -76,7 +76,7 @@ void client_func(const char* ip_str) {
     serv_addr.sin_port = htons(PORT);
 
     if (inet_pton(AF_INET, ip_str, &serv_addr.sin_addr) <= 0) {
-        perror("inet_pton(...) failed");
+        perror("\033[1;31minet_pton(...) failed\033[0m");
         exit(EXIT_FAILURE);
     }
 
@@ -88,7 +88,7 @@ void client_func(const char* ip_str) {
 
     printf("Connecting to server...\n");
     if (connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
-        printf("\033[1;31mCould not connect!\033[0m");
+        printf("\033[1;31mCouldn't connect!\033[0m");
         pthread_cancel(server);
         pthread_join(server, NULL);
         exit(EXIT_FAILURE);
@@ -109,8 +109,8 @@ int main() {
 
     while (server_not_ready);
 
-    client_func("68.7.100.87"); // Enable port forwarding on router for this to work
-    //client_func("127.0.0.1");
+    //client_func("68.7.100.87"); // Enable port forwarding on router for this to work
+    client_func("127.0.0.1");
 
     return 0;
 }
