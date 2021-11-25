@@ -102,6 +102,8 @@ void client_func(const char* ip_str) {
         write(sockfd, buffer, MSG_LENGTH);
     } while(strcmp(buffer, "exit\n") != 0);
 
+    pthread_cancel(server);
+    pthread_join(server, NULL);
     close(sockfd);
 }
 
