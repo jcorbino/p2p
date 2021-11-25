@@ -86,12 +86,14 @@ void client_func(const char* ip_str) {
 
     setsockopt(sockfd, SOL_SOCKET, SO_SNDTIMEO, &timeout, sizeof(timeout));
 
+    printf("Connecting to server...\n");
     if (connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
-        perror("connect(...) failed");
+        printf("\033[1;31mCould not connect!\033[0m");
         pthread_cancel(server);
         pthread_join(server, NULL);
         exit(EXIT_FAILURE);
     }
+    printf("\033[1;32mConnected!\033[0m\n");
 
     char buffer[MSG_LENGTH];
     do {
@@ -107,8 +109,8 @@ int main() {
 
     while (server_not_ready);
 
-    //client_func("68.7.100.87"); // Enable port forwarding on router for this to work
-    client_func("127.0.0.1");
+    client_func("68.7.100.87"); // Enable port forwarding on router for this to work
+    //client_func("127.0.0.1");
 
     return 0;
 }
