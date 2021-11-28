@@ -55,7 +55,7 @@ void* server_func(void* arg) {
     do {
         read(client, buffer, MSG_LENGTH);
         printf("\t %s says: %s\n", inet_ntoa(address.sin_addr), buffer);
-    } while(strcmp(buffer, "exit\n") != 0);
+    } while (strcmp(buffer, "exit\n") != 0);
 
     close(client);
     close(sockfd);
@@ -99,7 +99,7 @@ void client_func(const char* ip_str) {
         memset(buffer, 0, MSG_LENGTH);
         fgets(buffer, MSG_LENGTH, stdin);
         write(sockfd, buffer, MSG_LENGTH);
-    } while(strcmp(buffer, "exit\n") != 0);
+    } while (strcmp(buffer, "exit\n") != 0);
 
     pthread_cancel(server);
     pthread_join(server, NULL);
