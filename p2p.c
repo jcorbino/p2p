@@ -33,7 +33,7 @@ void* server_func(void* arg) {
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_port = htons(PORT);
 
-    if (bind(sockfd, (struct sockaddr *)&address, sizeof(address)) < 0) {
+    if (bind(sockfd, (struct sockaddr*)&address, sizeof(address)) < 0) {
         perror("\033[1;31mbind(...) failed\033[0m");
         exit(EXIT_FAILURE);
     }
